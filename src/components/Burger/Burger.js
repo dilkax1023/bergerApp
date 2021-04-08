@@ -31,14 +31,23 @@ const Wrapper = styled.div`
     }
 `;
 
-export default function Burger() {
+export default function Burger(props) {
+    let burgerIngredients = Object.keys(props.ingredients)
+        .map((ingredient) => {
+            return [...Array(props.ingredients[ingredient])].map((_, index) => (
+                <BurgerIngredients type={ingredient} key={ingredient + index} />
+            ));
+        })
+        .reduce((prev, curr) => prev.concat(curr), []);
+
+    if (burgerIngredients.length === 0) {
+        burgerIngredients = <p>Please select your ingredients</p>;
+    }
+
     return (
         <Wrapper>
             <BurgerIngredients type='bread-top' />
-            <BurgerIngredients type='cheese' />
-            <BurgerIngredients type='salad' />
-            <BurgerIngredients type='bacon' />
-            <BurgerIngredients type='meat' />
+            {burgerIngredients}
             <BurgerIngredients type='bread-buttom' />
         </Wrapper>
     );
